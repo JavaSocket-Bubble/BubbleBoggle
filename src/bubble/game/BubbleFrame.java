@@ -3,12 +3,15 @@ package bubble.game;
 import bubble.game.component.Enemy;
 import bubble.game.component.Player;
 import bubble.game.music.BGM;
+import bubble.game.state.EnemyWay;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,6 +22,7 @@ public class BubbleFrame extends JFrame {
     private Player player;
     private BubbleFrame mContext = this;
     private Enemy enemy;
+    private List<Enemy> enemyList; //컬렉션으로 관리
 
     public BubbleFrame() {
         initObject();
@@ -34,7 +38,10 @@ public class BubbleFrame extends JFrame {
         add(player);
         enemy = new Enemy(mContext);
         add(enemy);
-
+//        enemyList = new ArrayList<>();
+//        enemyList.add(new Enemy(mContext, EnemyWay.RIGHT));
+//        enemyList.add(new Enemy(mContext, EnemyWay.LEFT));
+//        for(Enemy e : enemyList) add(e);
         new BGM();
     }
 

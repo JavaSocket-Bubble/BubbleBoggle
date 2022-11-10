@@ -33,6 +33,9 @@ public class Player extends JLabel implements Moveable {
     private boolean up;
     private boolean down;
 
+    //플레이어 상태
+    private int state = 0; // 0(살아있음), 1(사망)
+
     //벽에 출돌한 상태
     private boolean leftWallCrash;
     private boolean rightWallCrash;
@@ -41,7 +44,7 @@ public class Player extends JLabel implements Moveable {
     private final int SPEED = 4;
     private final int JUMPSPEED = 2; //up, down
 
-    private ImageIcon playerR, playerL;
+    private ImageIcon playerR, playerL, playerRdie, playerLdie;
 
     public Player(BubbleFrame mContext) {
         this.mContext = mContext;
@@ -53,6 +56,8 @@ public class Player extends JLabel implements Moveable {
     public void initObject() {
         playerR = new ImageIcon("image/playerR.png");
         playerL = new ImageIcon("image/playerL.png");
+        playerRdie = new ImageIcon("image/playerRDie.png");
+        playerLdie = new ImageIcon("image/playerLDie.png");
         bubbleList = new ArrayList<>();
     }
 
@@ -100,7 +105,7 @@ public class Player extends JLabel implements Moveable {
         left = true; //움직이는 중
 
         new Thread(() -> { //runnable과 동일(람다식)
-            while (left) { // 스레드 종료(while없으면 계속 생성종료반복으로 낭비심함)
+            while (left && getState() == 0) { // 스레드 종료(while없으면 계속 생성종료반복으로 낭비심함)
                 setIcon(playerL);
                 x = x - SPEED;
                 setLocation(x, y);
@@ -127,7 +132,7 @@ public class Player extends JLabel implements Moveable {
 //            throw new RuntimeException(e);
 //        }
         new Thread(() -> { //runnable과 동일(람다식)
-            while (right) {
+            while (right && getState() == 0) {
                 setIcon(playerR);
                 x = x + SPEED;
                 setLocation(x, y);
@@ -179,6 +184,22 @@ public class Player extends JLabel implements Moveable {
                 }
             }
             down = false;
+        }).start();
+    }
+
+    public void die() {
+        new Thread(() -> {
+            setState(1);
+            setIcon(PlayerWay.RIGHT == playerWay ? playerRdie : playerLdie);
+            try {
+                if(!isUp() && !isDown()) up();
+                Thread.sleep(2000);
+                mContext.remove(this);
+                mContext.repaint();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //System.out.println("플레이어 사망");
         }).start();
     }
 }

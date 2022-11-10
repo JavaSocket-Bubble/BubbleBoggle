@@ -12,10 +12,11 @@ import javax.swing.*;
 @Getter
 @Setter
 
-//class Player => new 가능한 애들!! 게임에 존재할 수 존재할 수 있음.(추상메소드를 가질 수 없다)
+//class Enemy => new 가능한 애들!! 게임에 존재할 수 존재할 수 있음.(추상메소드를 가질 수 없다)
 public class Enemy extends JLabel implements Moveable {
 
     private BubbleFrame mContext;
+    private Player player; // 플레이어 추가(충돌 시 사망)
 
     //위치상태
     private int x;
@@ -41,6 +42,7 @@ public class Enemy extends JLabel implements Moveable {
 
     public Enemy(BubbleFrame mContext) {
         this.mContext = mContext;
+        this.player = mContext.getPlayer(); //플레이어 충돌 확인
         initObject();
         initSetting();
         initBackgroundEnemyService();
@@ -85,6 +87,11 @@ public class Enemy extends JLabel implements Moveable {
                 setIcon(enemyL);
                 x = x - SPEED;
                 setLocation(x, y);
+                //플레이어와 충돌
+                if (Math.abs(x - player.getX()) < 50 && Math.abs(y - player.getY()) < 50) {
+                    if (player.getState() == 0 && getState() == 0)
+                        player.die();
+                }
                 try { //sleep 안하면 너무 빨라서 우리 눈에 훅 하고 지나감
                     Thread.sleep(10);//0.01초
                 } catch (InterruptedException e) {
@@ -108,6 +115,11 @@ public class Enemy extends JLabel implements Moveable {
                 setIcon(enemyR);
                 x = x + SPEED;
                 setLocation(x, y);
+                //플레이어와 충돌
+                if (Math.abs(x - player.getX()) < 50 && Math.abs(y - player.getY()) < 50) {
+                    if (player.getState() == 0 && getState() == 0)
+                        player.die();
+                }
                 try {
                     Thread.sleep(10);//0.01초
                 } catch (InterruptedException e) {
@@ -127,6 +139,11 @@ public class Enemy extends JLabel implements Moveable {
             for(int i=0; i<130/JUMPSPEED; i++) {
                 y -= JUMPSPEED;
                 setLocation(x,y);
+                //플레이어와 충돌
+                if (Math.abs(x - player.getX()) < 50 && Math.abs(y - player.getY()) < 50) {
+                    if (player.getState() == 0 && getState() == 0)
+                        player.die();
+                }
                 try {
                     Thread.sleep(5);
                 } catch (InterruptedException e) {
@@ -149,6 +166,11 @@ public class Enemy extends JLabel implements Moveable {
             while (down) {
                 y += JUMPSPEED;
                 setLocation(x,y);
+                //플레이어와 충돌
+                if (Math.abs(x - player.getX()) < 50 && Math.abs(y - player.getY()) < 50) {
+                    if (player.getState() == 0 && getState() == 0)
+                        player.die();
+                }
                 try {
                     Thread.sleep(3 );
                 } catch (InterruptedException e) {
