@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,9 +16,11 @@ public class Bubble extends JLabel implements Moveable {
 
     //의존성 콤포지션
     private Player player;
-    private Enemy enemy;
+    //private Enemy enemy;
     private BackgroundBubbleService backgroundBubbleService;
     private BubbleFrame mContext;
+    private List<Enemy> enemyList; // 적들
+    private Enemy removeEnemy = null; // 적 제거 변수
 
     //위치상태
     private int x;
@@ -38,7 +41,7 @@ public class Bubble extends JLabel implements Moveable {
     public Bubble(BubbleFrame mContext) { //mContext에 정보 다 들어있으므로 필요 X, Player player생성 필요 X
         this.mContext = mContext;
         this.player = mContext.getPlayer(); //플레이어의 x,y좌표를 알고 버블 좌표를 만들 수 있음
-        this.enemy = mContext.getEnemy();
+        this.enemyList = mContext.getEnemyList();
         initObject();
         initSetting();
         //initThread();
@@ -82,7 +85,7 @@ public class Bubble extends JLabel implements Moveable {
         left = true;
 
         //범위를 줘야 하므로 while문 대신 for문 사용
-        for (int i=0; i<400; i++) {
+        Stop: for (int i=0; i<400; i++) {
             x--;
             setLocation(x,y); //이동
 
@@ -92,12 +95,14 @@ public class Bubble extends JLabel implements Moveable {
             }
 
             //절댓값으로 x: 10, y: 0~50
-            if((Math.abs(x - enemy.getX()) < 10) &&
-                    (Math.abs(y - enemy.getY()) > 0 && Math.abs(y - enemy.getY()) < 50)) {
-                //System.out.println("물방울이 적군과 충돌함");
-                if(enemy.getState() == 0) {
-                    attack();
-                    break;
+            for (Enemy enemy : enemyList) {
+                if ((Math.abs(x - enemy.getX()) < 10) &&
+                        (Math.abs(y - enemy.getY()) > 0 && Math.abs(y - enemy.getY()) < 50)) {
+                    //System.out.println("물방울이 적군과 충돌함");
+                    if (enemy.getState() == 0) {
+                        attack(enemy);
+                        break Stop;
+                    }
                 }
             }
 
@@ -115,7 +120,7 @@ public class Bubble extends JLabel implements Moveable {
     public void right() {
         right = true;
 
-        for (int i=0; i<400; i++) {
+        Stop: for (int i=0; i<400; i++) {
             x++;
             setLocation(x,y); //이동
 
@@ -125,12 +130,14 @@ public class Bubble extends JLabel implements Moveable {
             }
 
             //절댓값으로 x: 10, y: 0~50
-            if((Math.abs(x - enemy.getX()) < 10) &&
-                    (Math.abs(y - enemy.getY()) > 0 && Math.abs(y - enemy.getY()) < 50)) {
-                //System.out.println("물방울이 적군과 충돌함");
-                if(enemy.getState() == 0) {
-                    attack();
-                    break;
+            for (Enemy enemy : enemyList) {
+                if ((Math.abs(x - enemy.getX()) < 10) &&
+                        (Math.abs(y - enemy.getY()) > 0 && Math.abs(y - enemy.getY()) < 50)) {
+                    //System.out.println("물방울이 적군과 충돌함");
+                    if (enemy.getState() == 0) {
+                        attack(enemy);
+                        break Stop;
+                    }
                 }
             }
 
@@ -174,10 +181,11 @@ public class Bubble extends JLabel implements Moveable {
     }
 
     @Override
-    public void attack() { //적군 가두기
+    public void attack(Enemy enemy) { //적군 가두기
         state = 1; //물방울 상태
         enemy.setState(1); //적군 물방울 상태
         setIcon(bubbled);
+        removeEnemy = enemy;
         mContext.remove(enemy); //메모리에서 사라지게 하기(가비지 컬렉션 -> 즉시 발동하지 않음)
         mContext.repaint(); //깔끔하게 지워지기 위해 다시 그리기
     }
@@ -189,6 +197,7 @@ public class Bubble extends JLabel implements Moveable {
             setIcon(bomb);
             Thread.sleep(500);
             //버블 프레임 전체 다시 그리기(버블을 없애야 하므로), 버블프레임의 정보가 필요함(이때 main클래스를 호출)
+            mContext.getPlayer().getBubbleList().remove(this);
             mContext.remove(this); //BubbleFrame의 bubble이 메모리에서 소멸된다.
             mContext.repaint(); //BubbleFrame의 전체를 다시 그린다.(메모리에서 없는 건 그리지 않음)
 
@@ -204,6 +213,8 @@ public class Bubble extends JLabel implements Moveable {
                 up = false;
                 setIcon(bomb);
                 Thread.sleep(1000);
+                mContext.getPlayer().getBubbleList().remove(this);
+                mContext.getEnemyList().remove(removeEnemy); // 컨텍스트에 enemy 삭제
                 mContext.remove(this);
                 mContext.repaint();
             } catch (InterruptedException e) {

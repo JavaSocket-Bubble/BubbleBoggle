@@ -1,5 +1,7 @@
 package bubble.game;
 
+import bubble.game.component.Enemy;
+
 public interface Moveable {
     /**
      * default를 사용하면 인터페이스도 몸체가 있는 메서드를 만들 수 있다.
@@ -11,4 +13,6 @@ public interface Moveable {
     public abstract void up();
     default public void down() {}; //여기서 직접 구현해서 다른 곳에서 굳이 구현X
     default public void attack() {}; //player가 어택하면 버블은 움직이기만 함
+
+    default public void attack(Enemy enemy) {}; //적군리스트 가두기
 }

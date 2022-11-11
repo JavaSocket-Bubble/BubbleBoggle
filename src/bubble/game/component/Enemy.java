@@ -40,13 +40,14 @@ public class Enemy extends JLabel implements Moveable {
 
     private ImageIcon enemyR, enemyL;
 
-    public Enemy(BubbleFrame mContext) {
+    public Enemy(BubbleFrame mContext, EnemyWay enemyWay) {
         this.mContext = mContext;
         this.player = mContext.getPlayer(); //플레이어 충돌 확인
         initObject();
         initSetting();
         initBackgroundEnemyService();
-        right();
+        //right();
+        initEnemyDirection(enemyWay);
     }
 
     public void initObject() {
@@ -66,10 +67,22 @@ public class Enemy extends JLabel implements Moveable {
 
         state = 0;
 
-        enemyWay = EnemyWay.RIGHT;
-        this.setIcon(enemyR);
+//        enemyWay = EnemyWay.RIGHT;
+//        this.setIcon(enemyR);
         setSize(50,50);
         setLocation(x,y);
+    }
+
+    private void initEnemyDirection(EnemyWay enemyWay) {
+        if(EnemyWay.RIGHT == enemyWay) {
+            enemyWay = EnemyWay.RIGHT;
+            setIcon(enemyR);
+            right();
+        }else {
+            enemyWay = EnemyWay.LEFT;
+            setIcon(enemyL);
+            left();
+        }
     }
 
     private void initBackgroundEnemyService() {

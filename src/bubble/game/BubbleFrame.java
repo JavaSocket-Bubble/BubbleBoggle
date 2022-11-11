@@ -21,7 +21,7 @@ public class BubbleFrame extends JFrame {
     private JLabel backgroundMap;
     private Player player;
     private BubbleFrame mContext = this;
-    private Enemy enemy;
+    //private Enemy enemy;
     private List<Enemy> enemyList; //컬렉션으로 관리
 
     public BubbleFrame() {
@@ -36,12 +36,12 @@ public class BubbleFrame extends JFrame {
         setContentPane(backgroundMap); //JLabel을 JPanel로 바꿔버림
         player = new Player(mContext);
         add(player);
-        enemy = new Enemy(mContext);
-        add(enemy);
-//        enemyList = new ArrayList<>();
-//        enemyList.add(new Enemy(mContext, EnemyWay.RIGHT));
-//        enemyList.add(new Enemy(mContext, EnemyWay.LEFT));
-//        for(Enemy e : enemyList) add(e);
+//        enemy = new Enemy(mContext);
+//        add(enemy);
+        enemyList = new ArrayList<>();
+        enemyList.add(new Enemy(mContext, EnemyWay.RIGHT));
+        enemyList.add(new Enemy(mContext, EnemyWay.LEFT));
+        for(Enemy e : enemyList) add(e);
         new BGM();
     }
 
