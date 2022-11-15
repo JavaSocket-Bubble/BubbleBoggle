@@ -1,7 +1,6 @@
 package bubble.game;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -9,9 +8,9 @@ public class startPage extends JFrame {
 
     ImageIcon startPageimage = new ImageIcon("image/startPage.png");
 
-    Image img = startPageimage.getImage();
-    Image changeImg = img.getScaledInstance(1000,640, Image.SCALE_SMOOTH);
-    ImageIcon changeIcon = new ImageIcon(changeImg);
+//    Image img = startPageimage.getImage();
+//    Image changeImg = img.getScaledInstance(1000,640, Image.SCALE_SMOOTH);
+//    ImageIcon changeIcon = new ImageIcon(changeImg);
     JLabel startP;
 
     public startPage(){
@@ -22,7 +21,7 @@ public class startPage extends JFrame {
     }
 
     public void initObject(){
-        startP = new JLabel(changeIcon);
+        startP = new JLabel(startPageimage);
         setContentPane(startP); //JLabel을 JPanel로 바꿔버림
     }
 
@@ -38,8 +37,8 @@ public class startPage extends JFrame {
             @Override
             //키보드 클릭 핸들러 이벤트
             public void keyPressed(KeyEvent e) {
-                //new waitingRoom();
-                new BubbleFrame();
+                new waitingRoom();
+                //new BubbleFrame();
                 setVisible(false);
             }
         });
