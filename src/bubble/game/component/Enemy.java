@@ -17,6 +17,7 @@ public class Enemy extends JLabel implements Moveable {
 
     private BubbleFrame mContext;
     private Player player; // 플레이어 추가(충돌 시 사망)
+    private Player2 player2;
 
     //위치상태
     private int x;
@@ -43,6 +44,7 @@ public class Enemy extends JLabel implements Moveable {
     public Enemy(BubbleFrame mContext, EnemyWay enemyWay) {
         this.mContext = mContext;
         this.player = mContext.getPlayer(); //플레이어 충돌 확인
+        this.player2 = mContext.getPlayer2();
         initObject();
         initSetting();
         initBackgroundEnemyService();

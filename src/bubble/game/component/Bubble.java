@@ -3,6 +3,7 @@ package bubble.game.component;
 import bubble.game.BubbleFrame;
 import bubble.game.Moveable;
 import bubble.game.service.BackgroundBubbleService;
+import bubble.game.service.BackgroundPlayerService2;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,15 +17,21 @@ public class Bubble extends JLabel implements Moveable {
 
     //의존성 콤포지션
     private Player player;
+    //private Player2 player2;
     //private Enemy enemy;
     private BackgroundBubbleService backgroundBubbleService;
+    //private BackgroundPlayerService2 backgroundPlayerService2;
     private BubbleFrame mContext;
     private List<Enemy> enemyList; // 적들
     private Enemy removeEnemy = null; // 적 제거 변수
 
-    //위치상태
+    // player1 위치상태
     private int x;
     private int y;
+
+//    //player2 위치상태
+//    private int x2;
+//    private int y2;
 
     //움직임 상태
     private boolean left;
@@ -62,6 +69,9 @@ public class Bubble extends JLabel implements Moveable {
 
         x = player.getX();
         y = player.getY();
+
+//        x2 = player2.getX();
+//        y2 = player2.getY();
 
         setIcon(bubble);
         setSize(50,50);

@@ -2,6 +2,7 @@ package bubble.game;
 
 import bubble.game.component.Enemy;
 import bubble.game.component.Player;
+import bubble.game.component.Player2;
 import bubble.game.music.BGM;
 import bubble.game.state.EnemyWay;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class BubbleFrame extends JFrame {
 
     private JLabel backgroundMap;
     private Player player;
+    private Player2 player2;
     private BubbleFrame mContext = this;
     //private Enemy enemy;
     private List<Enemy> enemyList; //컬렉션으로 관리
@@ -36,13 +38,15 @@ public class BubbleFrame extends JFrame {
         setContentPane(backgroundMap); //JLabel을 JPanel로 바꿔버림
         player = new Player(mContext);
         add(player);
+        player2 = new Player2(mContext);
+        add(player2);
 //        enemy = new Enemy(mContext);
 //        add(enemy);
         enemyList = new ArrayList<>();
         enemyList.add(new Enemy(mContext, EnemyWay.RIGHT));
         enemyList.add(new Enemy(mContext, EnemyWay.LEFT));
         for(Enemy e : enemyList) add(e);
-        new BGM();
+        //new BGM();
     }
 
     public void initSetting() {
@@ -81,6 +85,27 @@ public class BubbleFrame extends JFrame {
                         player.attack();
                         break;
                 }
+
+                switch (e.getKeyChar()) {
+                    case 'a':
+                        if(!player2.isLeft() && !player2.isLeftWallCrash()) {
+                            player2.left();
+                        }
+                        break;
+                    case 'd':
+                        if(!player2.isRight() && !player2.isRightWallCrash()) {
+                            player2.right();
+                        }
+                        break;
+                    case 'w':
+                        if(!player2.isUp() && !player2.isDown()) {
+                            player2.up();
+                        }
+                        break;
+                    case 'k': //버블
+                        player2.attack();
+                        break;
+                }
             }
 
             //키보드 해제 핸들러 이벤트
@@ -92,6 +117,15 @@ public class BubbleFrame extends JFrame {
                         break;
                     case KeyEvent.VK_RIGHT:
                         player.setRight(false);
+                        break;
+                }
+
+                switch (e.getKeyChar()) {
+                    case 'a':
+                        player2.setLeft(false);
+                        break;
+                    case 'd':
+                        player2.setRight(false);
                         break;
                 }
             }
