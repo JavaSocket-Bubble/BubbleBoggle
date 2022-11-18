@@ -1,8 +1,8 @@
-package JavaServer;
+package bubble.game;
+
 
 public class Msg {
-
-    public String code; // 100:ready 확인, 200:동작정보(점프, 왼오), 300:아이템정보, 400:end점수데이터, 500: Logout
+    public String code; // 100:로그인, 200:동작정보, 300:아이템정보, 400:end점수데이터, 500: Logout
     public String UserName;
     public String data;
 
@@ -11,5 +11,5 @@ public class Msg {
         this.UserName = UserName;
         this.data = msg;
     }
-
 }
+
