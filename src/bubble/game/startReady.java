@@ -1,7 +1,5 @@
 package bubble.game;
 
-import bubble.game.startPage;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -41,7 +39,6 @@ public class startReady extends JFrame {
         readyButton.setFocusPainted(false);
         readyButton.setContentAreaFilled(false);
         add(readyButton);
-        startPage.ListenNetwork();
         readyButton.addMouseListener((new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -56,8 +53,7 @@ public class startReady extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                //new BubbleFrame();
-                startPage.SendMsg(new Msg("player", "100", "ready")); //ready 보내기 화면 넘어가도록
+                new BubbleFrame();
                 setVisible(false);
             }
         }));
