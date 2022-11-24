@@ -55,9 +55,6 @@ public class JavaObjClientView extends JFrame {
 	}*/
 
 
-
-
-
 	/**
 	 * Create the frame.
 	 */
@@ -129,7 +126,7 @@ public class JavaObjClientView extends JFrame {
 		try {
 			System.out.println("User " + username + " connecting " + ip_addr + " " + port_no);
 
-			socket = new Socket(ip_addr, Integer.pars로eInt(port_no));
+			socket = new Socket(ip_addr, Integer.parseInt(port_no));
 //			is = socket.getInputStream();
 //			dis = new DataInputStream(is);
 //			os = socket.getOutputStream();
@@ -364,6 +361,7 @@ public class JavaObjClientView extends JFrame {
 	public void SendObject(Object ob) { // 서버로 메세지를 보내는 메소드
 		try {
 			oos.writeObject(ob);
+			System.out.println("전송완료");
 		} catch (IOException e) {
 			// textArea.append("메세지 송신 에러!!\n");
 			AppendText("SendObject Error");
