@@ -105,7 +105,6 @@ public class JavaObjClientView extends JFrame {
 		contentPane.add(lblUserName);
 		setVisible(false);*/
 
-		System.out.println("User " + username + " connecting " + ip_addr + " " + port_no);
 		//AppendText("User " + username + " connecting " + ip_addr + " " + port_no);
 		//UserName = username;
 		//lblUserName.setText(username);
@@ -128,7 +127,9 @@ public class JavaObjClientView extends JFrame {
 		btnNewButton.setBounds(295, 539, 69, 40);
 		contentPane.add(btnNewButton);*/
 		try {
-			socket = new Socket(ip_addr, Integer.parseInt(port_no));
+			System.out.println("User " + username + " connecting " + ip_addr + " " + port_no);
+
+			socket = new Socket(ip_addr, Integer.pars·ÎeInt(port_no));
 //			is = socket.getInputStream();
 //			dis = new DataInputStream(is);
 //			os = socket.getOutputStream();
@@ -144,12 +145,12 @@ public class JavaObjClientView extends JFrame {
 			
 			ListenNetwork net = new ListenNetwork();
 			net.start();
-			TextSendAction action = new TextSendAction();
+			/*TextSendAction action = new TextSendAction();
 			btnSend.addActionListener(action);
 			txtInput.addActionListener(action);
 			txtInput.requestFocus();
 			ImageSendAction action2 = new ImageSendAction();
-			imgBtn.addActionListener(action2);
+			imgBtn.addActionListener(action2);*/
 
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
